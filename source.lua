@@ -1,4 +1,8 @@
 
+--PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
+
+
+-- guis
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local memer = Instance.new("TextLabel")
@@ -46,9 +50,9 @@ Red.BackgroundTransparency = 0.54
 Red.Position = UDim2.new(0.048, 0, 0.1, 0)
 Red.Size = UDim2.new(0, 225, 0, 70)
 Red.Font = Enum.Font.SourceSans
-Red.Text = "Waiting for choice..."
+Red.Text = "Loading..."
 Red.TextColor3 = Color3.new(0, 0, 0)
-Red.TextSize = 14
+Red.TextSize = 20
 Red.TextWrapped = true
 
 Blue.Name = "Blue"
@@ -59,9 +63,10 @@ Blue.BackgroundTransparency = 0.54
 Blue.Position = UDim2.new(0.048, 0, 0.575, 0)
 Blue.Size =  UDim2.new(0, 225, 0, 70)
 Blue.Font = Enum.Font.SourceSans
-Blue.Text = "Waiting for choice..."
+Blue.Text = "Loading..."
 Blue.TextColor3 = Color3.new(0, 0, 0)
-Blue.TextSize = 14
+Blue.TextSize = 20
+Blue.TextWrapped = true
 
 RedCount.Name = "RedCount"
 RedCount.Parent = Frame
@@ -141,7 +146,7 @@ Pause.MouseButton1Click:connect(function()
 end
 )
 
---PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
+
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -153,29 +158,6 @@ function getRoot(char)
 end
 
 local potentialTargets = {}
-
-function getTarget()
-
-    local Character = player.Character
-    local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
-    if not (Character or HumanoidRootPart) then return nil end
-
-    local TargetDistance = math.huge
-    local Target = nil
-
-    for i,v in ipairs(potentialTargets) do
-        if v ~= player and v:FindFirstChild("Character") and v.Character:FindFirstChild("HumanoidRootPart") then
-            local TargetHRP = v.Character.HumanoidRootPart
-            local mag = (HumanoidRootPart.Position - TargetHRP.Position).magnitude
-            if mag < TargetDistance then
-                TargetDistance = mag
-                Target = v
-            end
-        end
-    end
-
-    return Target
-end
 
 function grabTargets()
 
@@ -193,16 +175,32 @@ function grabTargets()
    end
 end
 
+function getTarget()
 
+	grabTargets()
 
-delay(0, function()
-while true do
+    local Character = player.Character
+    local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+    if not (Character or HumanoidRootPart) then return nil end
 
-   grabTargets()
+    local TargetDistance = math.huge
+    local Target = nil
 
-   wait(1)
+    for i,v in ipairs(potentialTargets) do
+        if v ~= player and v.Character:FindFirstChild("HumanoidRootPart") then
+            local TargetHRP = v.Character.HumanoidRootPart
+            local mag = (HumanoidRootPart.Position - TargetHRP.Position).Magnitude
+            if mag < TargetDistance then
+                TargetDistance = mag
+                Target = v
+            end
+        end
+    end
+
+    return Target
 end
-end)
+
+
 
 local block = false
 
@@ -227,7 +225,7 @@ delay(0,function()
     if allNeutral then
         for i,v in ipairs(Players:GetPlayers()) do
 
-            if v:FindFirstChild("Character") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+            if v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") then
                 local TargetHRP = v.Character.HumanoidRootPart
                 local pos = TargetHRP.Position
 
@@ -241,7 +239,6 @@ delay(0,function()
 
                 end
             end
-
 
 
         end
@@ -313,7 +310,7 @@ while wait() do
                     for i,v in ipairs(Players:GetPlayers()) do
                         
 
-                        if v:FindFirstChild("Character") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil  then
+                        if v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
 						
 							local TargetHRP = v.Character.HumanoidRootPart
 						
@@ -383,7 +380,7 @@ while wait() do
 
                     end)
 
-                    local vss = Vector3.new(0, 3, -42)
+                    local vss = Vector3.new(0, 3, -41)
 
                     while loa do
                     if player.Character:FindFirstChildOfClass('Humanoid') ~= nil then
@@ -416,45 +413,29 @@ while wait() do
 
             end
 
-            for k,v in pairs (potentialTargets) do
-                if v.Team == nil or v.Team == player.Team then
-                    table.remove(potentialTargets,k)
-                end
-            end
-
-            local target
-
-            if #potentialTargets > 0 then
-                target = getTarget()
-            else
-                grabTargets()
-                if #potentialTargets > 0 then
-                target = getTarget()
-                else
-                target = nil
-                end
-            end
+            local target = getTarget()
             
             if target ~= nil then
             
                 --local weapon = game:GetService("Players").LocalPlayer.Character:FindFirstChild("W")
 
-                --weapon.Remotes.ClientControl:InvokeServer()
+                --weapon.Remotes.ClientControl:InvokeServer("Swing")
             
-                if player.Character:FindFirstChildOfClass('Humanoid') ~= nil then
+                if player.Character:FindFirstChildOfClass('Humanoid') then
 
-                    if player.Character:FindFirstChildOfClass('Humanoid') and player.Character:FindFirstChildOfClass('Humanoid').SeatPart then
+                    if player.Character:FindFirstChildOfClass('Humanoid').Sit then
                     player.Character:FindFirstChildOfClass('Humanoid').Sit = false
                     wait(.1)
                     end
 
                     if getRoot(target.Character) ~= nil then
-                        player.Character:FindFirstChildOfClass('Humanoid'):MoveTo(getRoot(target.Character).Position)
+                        delay(0, function()
+                            player.Character:FindFirstChildOfClass('Humanoid'):MoveTo(getRoot(target.Character).Position)
+                        end)
                     end 
                 end
             end
         end
     end
-
-   
 end
+
