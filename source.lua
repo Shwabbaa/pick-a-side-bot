@@ -311,9 +311,12 @@ while wait() do
                     local blue = 0
 
                     for i,v in ipairs(Players:GetPlayers()) do
-                        local TargetHRP = v.Character.HumanoidRootPart
+                        
 
                         if v.Character ~= nil and v.Character.HumanoidRootPart ~= nil  then
+						
+							local TargetHRP = v.Character.HumanoidRootPart
+						
                             local pos = TargetHRP.Position
 
                             if pos.Z > -40 then
