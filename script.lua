@@ -161,9 +161,9 @@ while true do
 	  if target ~= nil then
 	  
 	  
-		local weapon = game:GetService("Players").LocalPlayer.Character:FindFirstChild("W")
+		--local weapon = game:GetService("Players").LocalPlayer.Character:FindFirstChild("W")
 
-		weapon.Remotes.ClientControl:InvokeServer()
+		--weapon.Remotes.ClientControl:InvokeServer()
 	  
          if player.Character:FindFirstChildOfClass('Humanoid') ~= nil then
 
