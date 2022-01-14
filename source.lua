@@ -164,7 +164,7 @@ function getTarget()
     local Target = nil
 
     for i,v in ipairs(potentialTargets) do
-        if v ~= player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+        if v ~= player and v:FindFirstChild("Character") and v.Character:FindFirstChild("HumanoidRootPart") then
             local TargetHRP = v.Character.HumanoidRootPart
             local mag = (HumanoidRootPart.Position - TargetHRP.Position).magnitude
             if mag < TargetDistance then
@@ -227,7 +227,7 @@ delay(0,function()
     if allNeutral then
         for i,v in ipairs(Players:GetPlayers()) do
 
-            if v.Character ~= nil and v.Character.HumanoidRootPart ~= nil then
+            if v:FindFirstChild("Character") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
                 local TargetHRP = v.Character.HumanoidRootPart
                 local pos = TargetHRP.Position
 
@@ -313,22 +313,20 @@ while wait() do
                     for i,v in ipairs(Players:GetPlayers()) do
                         
 
-                        if v.Character ~= nil and v.Character.HumanoidRootPart ~= nil  then
+                        if v:FindFirstChild("Character") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil  then
 						
 							local TargetHRP = v.Character.HumanoidRootPart
 						
                             local pos = TargetHRP.Position
 
                             if pos.Z > -40 then
-                                
-                            if pos.X > 30 then -- blue
-                                blue = blue + 1
-                            elseif pos.X < -30 then -- red
-                                red = red + 1
-                            end
-                        end
-
-
+									
+								if pos.X > 30 then -- blue
+									blue = blue + 1
+								elseif pos.X < -30 then -- red
+									red = red + 1
+								end
+							end
 
                         end
 
