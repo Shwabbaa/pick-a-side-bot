@@ -123,7 +123,7 @@ while true do
 
             if red == 0 then
                 choice = 1
-            elseif blue == 0
+            elseif blue == 0 then
                 choice = 0
             else
                 if red > blue then
