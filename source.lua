@@ -333,7 +333,8 @@ while wait() do
 
 
                     local choice = globalChoice
-
+					
+					
                     if choice == -1 then
                         if red == 0 then
                             choice = 1
@@ -349,6 +350,8 @@ while wait() do
                             end
                         end
                     end
+					
+					globalChoice = -1
 
                     local lol
 
