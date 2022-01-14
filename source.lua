@@ -11,6 +11,29 @@ end
 
 local potentialTargets = {}
 
+function getTarget()
+
+    local Character = player.Character
+    local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+    if not (Character or HumanoidRootPart) then return nil end
+
+    local TargetDistance = math.huge
+    local Target = nil
+
+    for i,v in ipairs(potentialTargets) do
+        if v ~= player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+            local TargetHRP = v.Character.HumanoidRootPart
+            local mag = (HumanoidRootPart.Position - TargetHRP.Position).magnitude
+            if mag < TargetDistance then
+                TargetDistance = mag
+                Target = v
+            end
+        end
+    end
+
+    return Target
+end
+
 function grabTargets()
 
     if potentialTargets ~= nil then
@@ -148,18 +171,17 @@ while true do
       local target
 
       if #potentialTargets > 0 then
-         target =  potentialTargets[math.random( #potentialTargets )]
+         target = getTarget()
       else
 	     grabTargets()
 		 if #potentialTargets > 0 then
-		 target =  potentialTargets[math.random( #potentialTargets )]
+		   target = getTarget()
 		 else
 		   target = nil
 		 end
 	  end
 	  
 	  if target ~= nil then
-	  
 	  
 		--local weapon = game:GetService("Players").LocalPlayer.Character:FindFirstChild("W")
 
