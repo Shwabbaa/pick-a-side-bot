@@ -98,11 +98,47 @@ while true do
                player.Character:FindFirstChildOfClass('Humanoid'):MoveTo(origin)
 
             end
-            wait(4)
+            wait(14)
+
+            local red = 0
+            local blue = 0
+
+            for i,v in ipairs(Players:GetPlayers()) do
+                local TargetHRP = v.Character.HumanoidRootPart
+                local pos = TargetHRP.Position
+
+                if pos.Z > -40 then
+                    
+                  if pos.X > 10 then -- blue
+                    blue = blue + 1
+                  elseif pos.X < -10 then -- red
+                    red = red + 1
+                  end
+
+                end
+
+            end
+
+            local choice
+
+            if red == 0 then
+                choice = 1
+            elseif blue == 0
+                choice = 0
+            else
+                if red > blue then
+                    choice = 1
+                elseif red < blue then
+                    choice = 0
+                else
+                    choice = math.random(0,1)
+                end
+            end
+
 
             local lol
 
-            if math.random(0,1) == 1 then
+            if choice == 0 then
                lol = Vector3.new(50, 4, 0)
             else
                lol = Vector3.new(-50, 4, 0)
