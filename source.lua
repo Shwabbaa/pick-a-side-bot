@@ -170,7 +170,6 @@ function grabTargets()
    for _,player2 in pairs(Players:GetPlayers()) do
       if player2.Team ~= nil and player.Team ~= player2.Team then
          table.insert(potentialTargets, player2)
-         break
       end
    end
 end
