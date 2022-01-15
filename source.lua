@@ -41,7 +41,7 @@ Pause.Parent = Frame
 Pause.Active = false
 Pause.BackgroundColor3 = Color3.new(1, 0, 0)
 Pause.BackgroundTransparency = 0.54
-Pause.Position = UDim2.new(0.05, 0, 0.9, 0)
+Pause.Position = UDim2.new(0.05, 0, 0.9125, 0)
 Pause.Size = UDim2.new(0, 100, 0, 15)
 Pause.Font = Enum.Font.SourceSans
 Pause.Text = "Auto Play (Off) X"
@@ -53,7 +53,7 @@ AutoClick.Parent = Frame
 AutoClick.Active = false
 AutoClick.BackgroundColor3 = Color3.new(1, 0, 0)
 AutoClick.BackgroundTransparency = 0.54
-AutoClick.Position = UDim2.new(0.4625, 0, 0.9, 0)
+AutoClick.Position = UDim2.new(0.4625, 0, 0.9125, 0)
 AutoClick.Size = UDim2.new(0, 100, 0, 15)
 AutoClick.Font = Enum.Font.SourceSans
 AutoClick.Text = "Auto Clicker (Off) Z"
@@ -165,12 +165,12 @@ end
 coroutine.resume(coroutine.create(asdjiadaoidjasd))
 
 Red.MouseButton1Click:connect(function()
-    globalChoice = 1
+    player.Character:MoveTo(Vector3.new(-50, 4, 0))
 end
 )
 
 Blue.MouseButton1Click:connect(function()
-    globalChoice = 0
+    player.Character:MoveTo(Vector3.new(50, 4, 0))
 end
 )
 
