@@ -251,6 +251,17 @@ delay(0, function()
     end
 end)
 
+delay(0, function()
+    while true do
+        if autoclick then
+		   vu:SetKeyDown("q")
+           wait(5)
+		   vu:SetKeyUp("q")
+        end
+        wait(5)
+    end
+end)
+
 
 local potentialTargets = {}
 
