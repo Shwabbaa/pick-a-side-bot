@@ -242,8 +242,10 @@ delay(0, function()
     while true do
         if autoclick then
            vu:Button1Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		   vu:SetKeyDown("q")
            wait()
            vu:Button1Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		   vu:SetKeyUp("q")
         end
         wait()
     end
@@ -531,7 +533,7 @@ while wait() do
                     end
 
                     if getRoot(target.Character) ~= nil then
-						TaskText.Text = "Attacking " .. target.Name
+						TaskText.Text = "Attacking " .. target.DisplayName
                         delay(0, function()
                             player.Character:FindFirstChildOfClass('Humanoid'):MoveTo(getRoot(target.Character).Position)
                         end)
