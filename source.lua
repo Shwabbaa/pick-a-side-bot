@@ -294,11 +294,16 @@ function getTarget()
     for i,v in ipairs(potentialTargets) do
         if v ~= player and v.Character:FindFirstChild("HumanoidRootPart") then
             local TargetHRP = v.Character.HumanoidRootPart
-            local mag = (HumanoidRootPart.Position - TargetHRP.Position).Magnitude
-            if mag < TargetDistance then
-                TargetDistance = mag
-                Target = v
-            end
+			
+			if TargetHRP ~= nil then
+			
+				local mag = (HumanoidRootPart.Position - TargetHRP.Position).Magnitude
+				if mag < TargetDistance then
+					TargetDistance = mag
+					Target = v
+				end
+				
+			end
         end
     end
 
