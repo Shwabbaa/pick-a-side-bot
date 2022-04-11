@@ -1,8 +1,10 @@
 
 --PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
 
+repeat game:GetService("RunService").RenderStepped:wait() until game.Players.LocalPlayer ~= nil
+
 local Players = game:GetService("Players")
-local player = Players:WaitForChild("LocalPlayer")
+local player = Players.LocalPlayer
 local mouse = player:GetMouse()
 local UserInputService = game:GetService("UserInputService")
 local HttpService = game:GetService("HttpService")
