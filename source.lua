@@ -14,9 +14,6 @@ local player = Players.LocalPlayer
 local mouse = player:GetMouse()
 local UserInputService = game:GetService("UserInputService")
 local HttpService = game:GetService("HttpService")
-
-player:WaitForChild("Character")
-
 -- guis
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
