@@ -1,10 +1,13 @@
 
 --PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
 
+if game.PlaceId == 663655429 then
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
 local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
 
 -- guis
 local ScreenGui = Instance.new("ScreenGui")
@@ -19,11 +22,29 @@ local TaskText = Instance.new("TextLabel")
 local SuggestedPlayerText = Instance.new("TextLabel")
 
 local Pause = Instance.new("TextButton")
+local AutoHop = Instance.new("TextButton")
+local LowDetail = Instance.new("TextButton")
 
 local globalChoice = -1
 
-local paused = true
-local autoclick = false
+local cfg
+
+if isfile("shwabbaa/pickaside/config.json") then
+    
+   cfg = HttpService:JSONDecode(readfile("shwabbaa/pickaside/config.json"))
+   
+else 
+    
+    cfg = {
+         paused = true,
+         autoclick = false,
+         autoserverhop = false,
+         autolowquality = false
+    }
+    
+end
+
+
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
@@ -36,29 +57,78 @@ Frame.BorderSizePixel = 3
 Frame.Position = UDim2.new(0.80, 0, 0.75, 0)
 Frame.Size = UDim2.new(0, 300, 0, 225)
 
+AutoHop.Name = "AutoHop"
+AutoHop.Parent = Frame
+AutoHop.Active = false
+AutoHop.BackgroundTransparency = 0.54
+AutoHop.Position = UDim2.new(0.05, 0, 0.815, 0)
+AutoHop.Size = UDim2.new(0, 100, 0, 15)
+AutoHop.Font = Enum.Font.SourceSans
+AutoHop.TextColor3 = Color3.new(0, 0, 0)
+AutoHop.TextSize = 14
+
+LowDetail.Name = "LowDetail"
+LowDetail.Parent = Frame
+LowDetail.Active = false
+LowDetail.BackgroundTransparency = 0.54
+LowDetail.Position = UDim2.new(0.4625, 0, 0.815, 0)
+LowDetail.Size = UDim2.new(0, 100, 0, 15)
+LowDetail.Font = Enum.Font.SourceSans
+LowDetail.TextColor3 = Color3.new(0, 0, 0)
+LowDetail.TextSize = 14
+
 Pause.Name = "Pause"
 Pause.Parent = Frame
 Pause.Active = false
-Pause.BackgroundColor3 = Color3.new(1, 0, 0)
 Pause.BackgroundTransparency = 0.54
 Pause.Position = UDim2.new(0.05, 0, 0.9125, 0)
 Pause.Size = UDim2.new(0, 100, 0, 15)
 Pause.Font = Enum.Font.SourceSans
-Pause.Text = "Auto Play (Off) X"
 Pause.TextColor3 = Color3.new(0, 0, 0)
 Pause.TextSize = 14
 
 AutoClick.Name = "AutoClick"
 AutoClick.Parent = Frame
 AutoClick.Active = false
-AutoClick.BackgroundColor3 = Color3.new(1, 0, 0)
 AutoClick.BackgroundTransparency = 0.54
 AutoClick.Position = UDim2.new(0.4625, 0, 0.9125, 0)
 AutoClick.Size = UDim2.new(0, 100, 0, 15)
 AutoClick.Font = Enum.Font.SourceSans
-AutoClick.Text = "Auto Clicker (Off) Z"
 AutoClick.TextColor3 = Color3.new(0, 0, 0)
 AutoClick.TextSize = 14
+
+
+if cfg.paused then
+    Pause.Text = "Auto Play (Off) X"
+	Pause.BackgroundColor3 = Color3.new(1, 0, 0)
+else 
+    Pause.Text = "Auto Play (On) X"
+	Pause.BackgroundColor3 = Color3.new(0, 1, 0)
+end
+
+if cfg.autoclick then
+    AutoClick.Text = "Auto Click (On) Z"
+	AutoClick.BackgroundColor3 = Color3.new(0, 1, 0)
+else 
+	AutoClick.Text = "Auto Click (Off) Z"
+	AutoClick.BackgroundColor3 = Color3.new(1, 0, 0)
+end
+
+if cfg.autolowquality then
+    LowDetail.Text = "Low Detail (On) V"
+    LowDetail.BackgroundColor3 = Color3.new(0, 1, 0)
+else 
+    LowDetail.Text = "Low Detail (Off) V"
+    LowDetail.BackgroundColor3 = Color3.new(1, 0, 0)
+end
+
+if cfg.autoserverhop then
+    AutoHop.Text = "Auto Hop (On) C"
+	AutoHop.BackgroundColor3 = Color3.new(0, 1, 0)
+else 
+    AutoHop.Text = "Auto Hop (Off) C"
+	AutoHop.BackgroundColor3 = Color3.new(1, 0, 0)
+end
 
 Red.Name = "Red"
 Red.Parent = Frame
@@ -153,16 +223,16 @@ function getplayer(String)
     return plrs    
 end
 
-function asdjiadaoidjasd()
+function loasdl()
 	getfenv().script = Instance.new('LocalScript', ScreenGui)
 		for _,v in ipairs(script.Parent:GetDescendants()) do
 			if not v:IsA("LocalScript") then
 			v.Draggable = true
-		end
+		end 
 	end
 
 end
-coroutine.resume(coroutine.create(asdjiadaoidjasd))
+coroutine.resume(coroutine.create(loasdl))
 
 Red.MouseButton1Click:connect(function()
     player.Character:MoveTo(Vector3.new(-50, 4, 0))
@@ -174,58 +244,96 @@ Blue.MouseButton1Click:connect(function()
 end
 )
 
-Pause.MouseButton1Click:connect(function()
-    if paused then
-    paused = false
+function saveConfig()
+    
+    makefolder("shwabbaa/")
+    makefolder("shwabbaa/pickaside/")
+    writefile("shwabbaa/pickaside/config.json", HttpService:JSONEncode(cfg))  
+    
+end
+
+function togglePause()
+    if cfg.paused then
+    cfg.paused = false
     Pause.Text = "Auto Play (On) X"
 	Pause.BackgroundColor3 = Color3.new(0, 1, 0)
     else 
-    paused = true
+    cfg.paused = true
     Pause.Text = "Auto Play (Off) X"
 	Pause.BackgroundColor3 = Color3.new(1, 0, 0)
     end
+    saveConfig()
+end
+
+function toggleAC()
+    if cfg.autoclick then
+    cfg.autoclick = false
+    AutoClick.Text = "Auto Click (Off) Z"
+	AutoClick.BackgroundColor3 = Color3.new(1, 0, 0)
+    else 
+    cfg.autoclick = true
+    AutoClick.Text = "Auto Click (On) Z"
+	AutoClick.BackgroundColor3 = Color3.new(0, 1, 0)
+    end
+    saveConfig()
+end
+
+function toggleQuality()
+    if cfg.autolowquality then
+    cfg.autolowquality = false
+    LowDetail.Text = "Low Detail (Off) V"
+	LowDetail.BackgroundColor3 = Color3.new(1, 0, 0)
+    else 
+    cfg.autolowquality = true
+    LowDetail.Text = "Low Detail (On) V"
+	LowDetail.BackgroundColor3 = Color3.new(0, 1, 0)
+    end
+    saveConfig()
+end
+
+function toggleServerHop()
+    if cfg.autoserverhop then
+    cfg.autoserverhop = false
+    AutoHop.Text = "Auto Hop (Off) C"
+	AutoHop.BackgroundColor3 = Color3.new(1, 0, 0)
+    else 
+    cfg.autoserverhop = true
+    AutoHop.Text = "Auto Hop (On) C"
+	AutoHop.BackgroundColor3 = Color3.new(0, 1, 0)
+    end
+    saveConfig()
+end
+
+Pause.MouseButton1Click:connect(function()
+    togglePause()
 end
 )
 
 AutoClick.MouseButton1Click:connect(function()
-    if autoclick then
-    autoclick = false
-    AutoClick.Text = "Auto Click (Off) Z"
-	AutoClick.BackgroundColor3 = Color3.new(1, 0, 0)
-    else 
-    autoclick = true
-    AutoClick.Text = "Auto Click (On) Z"
-	AutoClick.BackgroundColor3 = Color3.new(0, 1, 0)
-    end
+    toggleAC()
 end
 )
 
+AutoHop.MouseButton1Click:connect(function()
+    toggleServerHop()
+end
+)
+
+LowDetail.MouseButton1Click:connect(function()
+    toggleQuality()
+end
+)
+
+
 UserInputService.InputBegan:Connect(function(Key, Chat)
     if Key.KeyCode == Enum.KeyCode.X and not Chat then
-        if paused then
-		paused = false
-		Pause.Text = "Auto Play (On) X"
-		Pause.BackgroundColor3 = Color3.new(0, 1, 0)
-		else 
-		paused = true
-		Pause.Text = "Auto Play (Off) X"
-		Pause.BackgroundColor3 = Color3.new(1, 0, 0)
-		end
-    end
-end)
-
-
-UserInputService.InputBegan:Connect(function(Key, Chat)
-    if Key.KeyCode == Enum.KeyCode.Z and not Chat then
-		if autoclick then
-		autoclick = false
-		AutoClick.Text = "Auto Click (Off) Z"
-		AutoClick.BackgroundColor3 = Color3.new(1, 0, 0)
-		else 
-		autoclick = true
-		AutoClick.Text = "Auto Click (On) Z"
-		AutoClick.BackgroundColor3 = Color3.new(0, 1, 0)
-		end
+        togglePause()
+    elseif Key.KeyCode == Enum.KeyCode.Z and not Chat then
+        toggleAC()
+    elseif Key.KeyCode == Enum.KeyCode.C and not Chat then
+        toggleServerHop()
+    elseif Key.KeyCode == Enum.KeyCode.V and not Chat then
+        toggleQuality()
     end
 end)
 
@@ -240,7 +348,7 @@ end
 local vu = game:GetService("VirtualUser")
 delay(0, function()
     while true do
-        if autoclick then
+        if cfg.autoclick then
            vu:Button1Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 		   vu:SetKeyDown("q")
            wait()
@@ -251,16 +359,44 @@ delay(0, function()
     end
 end)
 
-delay(0, function()
-    while true do
-        if autoclick then
-		   vu:SetKeyDown("q")
-           wait(5)
-		   vu:SetKeyUp("q")
-        end
-        wait(5)
-    end
-end)
+
+
+delay(0, function ()
+
+
+	while wait(1) do
+	
+		if cfg.autoserverhop then
+
+			local currentCount = #Players:GetPlayers()
+
+			if currentCount < 10 then
+			
+				TaskText.Text = "Trying to hop..."
+			
+				local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"))
+				for i,v in pairs(Servers.data) do
+					if v.playing ~= v.maxPlayers then
+
+						if currentCount < v.playing then
+							TaskText.Text = "Target found, attempting to join"
+							game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, v.id)
+							
+							wait()
+						end
+
+					end
+				end
+				
+				wait(60)
+			
+			end
+		
+		end
+
+	end
+
+end )
 
 
 local potentialTargets = {}
@@ -295,7 +431,7 @@ function getTarget()
         if v ~= player and v.Character:FindFirstChild("HumanoidRootPart") then
             local TargetHRP = v.Character.HumanoidRootPart
 			
-			if TargetHRP ~= nil then
+			if TargetHRP ~= nil and HumanoidRootPart ~= nil then
 			
 				local mag = (HumanoidRootPart.Position - TargetHRP.Position).Magnitude
 				if mag < TargetDistance then
@@ -381,7 +517,7 @@ end)
 
 while wait() do
 
-    if not paused then
+    if not cfg.paused then
         if player.Team == nil then
 
             local allNeutral = true
@@ -551,7 +687,14 @@ while wait() do
                     if getRoot(target.Character) ~= nil then
 						TaskText.Text = "Attacking " .. target.DisplayName
                         delay(0, function()
-                            player.Character:FindFirstChildOfClass('Humanoid'):MoveTo(getRoot(target.Character).Position)
+						
+							local oroot = getRoot(target.Character)
+							
+							if oroot ~= nil then
+							    player.Character:FindFirstChildOfClass('Humanoid'):MoveTo(oroot.Position)
+							end
+						
+                        
                         end)
                     end 
                 end
@@ -560,4 +703,6 @@ while wait() do
     else
 		TaskText.Text = "Auto Play is off"
 	end
+end
+
 end
