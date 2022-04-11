@@ -1,8 +1,6 @@
 
 --PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
 
-repeat game:GetService("RunService").RenderStepped:wait() until game.Players.LocalPlayer ~= nil
-
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
