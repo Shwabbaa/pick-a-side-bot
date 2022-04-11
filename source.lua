@@ -2,7 +2,7 @@
 --PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
 
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local player = Players:WaitForChild("LocalPlayer")
 local mouse = player:GetMouse()
 local UserInputService = game:GetService("UserInputService")
 local HttpService = game:GetService("HttpService")
