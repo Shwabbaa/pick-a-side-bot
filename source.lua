@@ -87,7 +87,7 @@ function lowerQuality()
 end
 
 if autolowquality then
-	lowerQuality()
+	delay(10, lowerQuality)
 end
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -417,22 +417,32 @@ delay(0, function ()
 
 			if currentCount < 10 then
 			
-				TaskText.Text = "Trying to hop..."
-			
+				game:GetService("StarterGui"):SetCore("SendNotification",{
+					Title = "Server Hop",
+					Text = "Attempting to join another server...",
+				})
+						
 				local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"))
 				for i,v in pairs(Servers.data) do
 					if v.playing ~= v.maxPlayers then
 
 						if currentCount < v.playing then
-							TaskText.Text = "Target found, attempting to join"
+							game:GetService("StarterGui"):SetCore("SendNotification",{
+								Title = "Server Hop",
+								Text = "Attempting to connect to " .. v.id,
+							})
 							game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, v.id)
 							
-							wait()
+							wait(1)
 						end
 
 					end
 				end
 				
+				game:GetService("StarterGui"):SetCore("SendNotification",{
+					Title = "Server Hop",
+					Text = "No suitable server found, trying again in 60s",
+				})
 				wait(60)
 			
 			end
