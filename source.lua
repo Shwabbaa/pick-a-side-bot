@@ -93,7 +93,7 @@ function lowerQuality()
 end
 
 if cfg.autolowquality then
-	delay(10, lowerQuality)
+	lowerQuality()
 end
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
