@@ -1,5 +1,5 @@
 
---PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
+--PAS Grind by Shwabbaa (OPEN SOURCE!!!!!)
 
 repeat game:GetService("RunService").RenderStepped:wait() until game.Players.LocalPlayer ~= nil
 
