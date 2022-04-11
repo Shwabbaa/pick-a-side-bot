@@ -1,8 +1,6 @@
 
 --PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
 
-if game.PlaceId == 663655429 then
-
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
@@ -703,6 +701,4 @@ while wait() do
     else
 		TaskText.Text = "Auto Play is off"
 	end
-end
-
 end
