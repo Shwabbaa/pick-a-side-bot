@@ -1,6 +1,12 @@
 
 --PAS Grind by Shwabbaa (OPEN SOURCE!!!!)
 
+repeat game:GetService("RunService").RenderStepped:wait() until game.Players.LocalPlayer ~= nil
+
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
@@ -87,7 +93,7 @@ function lowerQuality()
 end
 
 if cfg.autolowquality then
-	lowerQuality()
+	delay(10, lowerQuality)
 end
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
