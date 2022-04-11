@@ -42,7 +42,53 @@ else
     
 end
 
+function lowerQuality()
 
+	workspace:FindFirstChildOfClass('Terrain').WaterWaveSize = 0
+	workspace:FindFirstChildOfClass('Terrain').WaterWaveSpeed = 0
+	workspace:FindFirstChildOfClass('Terrain').WaterReflectance = 0
+	workspace:FindFirstChildOfClass('Terrain').WaterTransparency = 0
+	game:GetService("Lighting").GlobalShadows = false
+	game:GetService("Lighting").FogEnd = 9e9
+	settings().Rendering.QualityLevel = 1
+	for i,v in pairs(game:GetDescendants()) do
+		if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+			v.Material = "Plastic"
+			v.Reflectance = 0
+		elseif v:IsA("Decal") then
+			v.Transparency = 1
+		elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+			v.Lifetime = NumberRange.new(0)
+		elseif v:IsA("Explosion") then
+			v.BlastPressure = 1
+			v.BlastRadius = 1
+		end
+	end
+	for i,v in pairs(game:GetService("Lighting"):GetDescendants()) do
+		if v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") then
+			v.Enabled = false
+		end
+	end
+	workspace.DescendantAdded:Connect(function(child)
+		coroutine.wrap(function()
+			if child:IsA('ForceField') then
+				game:GetService('RunService').Heartbeat:Wait()
+				child:Destroy()
+			elseif child:IsA('Sparkles') then
+				game:GetService('RunService').Heartbeat:Wait()
+				child:Destroy()
+			elseif child:IsA('Smoke') or child:IsA('Fire') then
+				game:GetService('RunService').Heartbeat:Wait()
+				child:Destroy()
+			end
+		end)()
+	end)
+
+end
+
+if autolowquality then
+	lowerQuality()
+end
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
@@ -282,6 +328,7 @@ function toggleQuality()
     LowDetail.Text = "Low Detail (Off) V"
 	LowDetail.BackgroundColor3 = Color3.new(1, 0, 0)
     else 
+	lowerQuality()
     cfg.autolowquality = true
     LowDetail.Text = "Low Detail (On) V"
 	LowDetail.BackgroundColor3 = Color3.new(0, 1, 0)
