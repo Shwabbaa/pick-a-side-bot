@@ -1,7 +1,7 @@
 
 --PAS Grind by Shwabbaa (OPEN SOURCE!!!!!)
 
-repeat game:GetService("RunService").RenderStepped:wait() until game.Players.LocalPlayer ~= nil
+repeat game:GetService("RunService").RenderStepped:wait() until game.Players.LocalPlayer ~= nil and game.Players.LocalPlayer.Character ~= nil
 
 if not game:IsLoaded() then
 	game.Loaded:Wait()
