@@ -7,8 +7,6 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
-
-
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
@@ -98,7 +96,11 @@ if cfg.autolowquality then
 	delay(10, lowerQuality)
 end
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+if syn then
+	syn.protect_gui(ScreenGui)
+end
+
+ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ResetOnSpawn = false
 
 Frame.Parent = ScreenGui
@@ -423,7 +425,7 @@ delay(0, function ()
 
 			local currentCount = #Players:GetPlayers()
 
-			if currentCount < 10 then
+			if currentCount < 8 then
 			
 				game:GetService("StarterGui"):SetCore("SendNotification",{
 					Title = "Server Hop",
